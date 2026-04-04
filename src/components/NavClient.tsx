@@ -23,6 +23,9 @@ export function NavClient({ session }: NavClientProps) {
         <Link href="/progress" className="px-3 py-2 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
           My Progress
         </Link>
+        <Link href="/pricing" className="px-3 py-2 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+          Pricing
+        </Link>
         <Link href="/about" className="px-3 py-2 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
           About
         </Link>
@@ -46,12 +49,20 @@ export function NavClient({ session }: NavClientProps) {
             </form>
           </div>
         ) : (
-          <Link
-            href="/sign-in"
-            className="px-4 py-2 text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
-          >
-            Sign in
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/pricing"
+              className="px-4 py-2 text-sm font-semibold bg-gradient-to-r from-blue-600 to-purple-600 hover:opacity-90 text-white rounded-lg transition-opacity"
+            >
+              Become a Member
+            </Link>
+            <Link
+              href="/sign-in"
+              className="px-4 py-2 text-sm font-semibold border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+            >
+              Sign in
+            </Link>
+          </div>
         )}
       </div>
 
@@ -83,6 +94,9 @@ export function NavClient({ session }: NavClientProps) {
             <Link href="/progress" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
               My Progress
             </Link>
+            <Link href="/pricing" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+              Pricing
+            </Link>
             <Link href="/about" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
               About
             </Link>
@@ -102,6 +116,9 @@ export function NavClient({ session }: NavClientProps) {
                   </form>
                 </div>
               ) : (
+                <Link href="/pricing" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg mb-1 text-center">
+                  Become a Member →
+                </Link>
                 <Link href="/sign-in" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-semibold text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-950/50 transition-colors">
                   Sign in with GitHub →
                 </Link>
