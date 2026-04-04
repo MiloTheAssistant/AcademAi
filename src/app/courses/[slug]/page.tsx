@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { courses, getCourseBySlug } from "@/data/courses";
+import { CourseResumeBanner } from "@/components/CourseResumeBanner";
+import { CourseStartButton } from "@/components/CourseStartButton";
 
 export async function generateStaticParams() {
   return courses.map((course) => ({
@@ -62,7 +64,8 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
           </div>
 
           <h1 className="text-4xl font-bold tracking-tight mb-6">{course.title}</h1>
-          <p className="text-lg text-slate-600 dark:text-slate-400 mb-8">{course.description}</p>
+          <p className="text-lg text-slate-600 dark:text-slate-400 mb-4">{course.description}</p>
+          <CourseResumeBanner slug={course.slug} totalModules={course.modules.length} />
 
           {/* Course Modules */}
           <div className="mb-12">
@@ -152,12 +155,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
                   <dd className="font-medium">{course.modules.length}</dd>
                 </div>
               </dl>
-              <Link
-                href={`/courses/${course.slug}/lessons/0`}
-                className="block w-full mt-6 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-colors text-center"
-              >
-                Start Course
-              </Link>
+              <CourseStartButton slug={course.slug} totalModules={course.modules.length} />
             </div>
 
             {/* Other Courses */}

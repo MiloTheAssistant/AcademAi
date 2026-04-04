@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { courses, learningPaths } from "@/data/courses";
+import { CourseGrid, type CourseCardData } from "@/components/CourseGrid";
 
 const categoryColors: Record<string, string> = {
   "claude-code": "bg-blue-500",
@@ -24,8 +25,17 @@ const levelColors: Record<string, string> = {
 };
 
 export default function Home() {
-  const featuredCourses = courses.slice(0, 6);
   const featuredPaths = learningPaths.slice(0, 3);
+  const featuredCardData: CourseCardData[] = courses.slice(0, 6).map((c) => ({
+    slug: c.slug,
+    title: c.title,
+    description: c.description,
+    path: c.path,
+    category: c.category,
+    level: c.level,
+    estimatedHours: c.estimatedHours,
+    moduleCount: c.modules.length,
+  }));
 
   return (
     <div className="min-h-screen">
@@ -117,37 +127,7 @@ export default function Home() {
           </Link>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {featuredCourses.map((course) => (
-            <Link
-              key={course.slug}
-              href={`/courses/${course.slug}`}
-              className="group flex flex-col bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 hover:shadow-xl hover:shadow-blue-500/5 hover:-translate-y-0.5 transition-all duration-200"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${categoryTextColors[course.category]}`}>
-                  <span className={`w-1.5 h-1.5 rounded-full ${categoryColors[course.category]}`} />
-                  {course.path}
-                </span>
-                <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${levelColors[course.level]}`}>
-                  {course.level}
-                </span>
-              </div>
-
-              <h3 className="text-base font-semibold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug">
-                {course.title}
-              </h3>
-              <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-2 mb-4 leading-relaxed flex-1">
-                {course.description}
-              </p>
-
-              <div className="flex items-center justify-between text-xs text-slate-400 dark:text-slate-500 pt-4 border-t border-slate-100 dark:border-slate-800">
-                <span>{course.modules.length} modules</span>
-                <span>{course.estimatedHours}</span>
-              </div>
-            </Link>
-          ))}
-        </div>
+        <CourseGrid courses={featuredCardData} showCategoryBadge={true} />
       </section>
 
       {/* Learning Paths */}

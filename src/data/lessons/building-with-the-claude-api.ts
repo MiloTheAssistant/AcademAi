@@ -187,11 +187,11 @@ Only answer questions about Acme products. If asked about competitors, politely 
   <li>Provides necessary background context</li>
   <li>Handles edge cases explicitly</li>
 </ul>
-<pre><code>system: `You are a JSON API. Extract structured data from user text.
+<pre><code>system: \`You are a JSON API. Extract structured data from user text.
 Always respond with valid JSON matching this schema:
 { "name": string, "email": string|null, "phone": string|null }
 If a field cannot be found, use null.
-Never include any text outside the JSON object.`</code></pre>
+Never include any text outside the JSON object.\`</code></pre>
 
 <h3>Few-Shot Examples in Prompts</h3>
 <p>Providing examples in the messages array (few-shot prompting) is the most reliable technique for consistent output format. Include 2–5 examples before the actual request:</p>

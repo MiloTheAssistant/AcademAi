@@ -20,6 +20,9 @@ export function NavClient({ session }: NavClientProps) {
         <Link href="/paths" className="px-3 py-2 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
           Learning Paths
         </Link>
+        <Link href="/progress" className="px-3 py-2 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+          My Progress
+        </Link>
         <Link href="/about" className="px-3 py-2 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
           About
         </Link>
@@ -76,6 +79,9 @@ export function NavClient({ session }: NavClientProps) {
             </Link>
             <Link href="/paths" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
               Learning Paths
+            </Link>
+            <Link href="/progress" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+              My Progress
             </Link>
             <Link href="/about" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
               About
