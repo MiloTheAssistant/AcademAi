@@ -116,12 +116,14 @@ export function NavClient({ session }: NavClientProps) {
                   </form>
                 </div>
               ) : (
-                <Link href="/pricing" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg mb-1 text-center">
-                  Become a Member →
-                </Link>
-                <Link href="/sign-in" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-semibold text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-950/50 transition-colors">
-                  Sign in with GitHub →
-                </Link>
+                <>
+                  <Link href="/pricing" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg mb-1 text-center">
+                    Become a Member →
+                  </Link>
+                  <Link href="/sign-in" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-semibold text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-950/50 transition-colors">
+                    Sign in with GitHub →
+                  </Link>
+                </>
               )}
             </div>
           </div>
