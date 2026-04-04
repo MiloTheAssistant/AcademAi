@@ -7,4 +7,4 @@ export interface LessonContent {
   estimatedMinutes: number;
 }
 
-export const lessonContent: LessonContent[] = [
+export { allLessons as lessonContent, getLessonContent } from "./lessons/index";
