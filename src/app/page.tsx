@@ -50,7 +50,7 @@ export default function Home() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/50 border border-blue-100 dark:border-blue-900 text-blue-700 dark:text-blue-300 text-sm font-medium mb-8">
             <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-            Free access — all {courses.length} courses
+            24-hour free trial — all {courses.length} courses included
           </div>
 
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6 text-balance">
@@ -94,7 +94,7 @@ export default function Home() {
               { value: courses.length, label: "Courses" },
               { value: learningPaths.length, label: "Learning Paths" },
               { value: "5", label: "Skill Tracks" },
-              { value: "100%", label: "Free Access" },
+              { value: "24h", label: "Free Trial" },
             ].map(({ value, label }) => (
               <div key={label} className="py-2">
                 <div className="text-3xl sm:text-4xl font-bold text-blue-600 tabular-nums">{value}</div>
