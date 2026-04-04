@@ -1,5 +1,27 @@
 import Link from "next/link";
-import { courses, learningPaths, categories } from "@/data/courses";
+import { courses, learningPaths } from "@/data/courses";
+
+const categoryColors: Record<string, string> = {
+  "claude-code": "bg-blue-500",
+  api: "bg-purple-500",
+  mcp: "bg-orange-500",
+  "ai-fluency": "bg-pink-500",
+  foundational: "bg-emerald-500",
+};
+
+const categoryTextColors: Record<string, string> = {
+  "claude-code": "text-blue-700 bg-blue-50 dark:text-blue-300 dark:bg-blue-950/50",
+  api: "text-purple-700 bg-purple-50 dark:text-purple-300 dark:bg-purple-950/50",
+  mcp: "text-orange-700 bg-orange-50 dark:text-orange-300 dark:bg-orange-950/50",
+  "ai-fluency": "text-pink-700 bg-pink-50 dark:text-pink-300 dark:bg-pink-950/50",
+  foundational: "text-emerald-700 bg-emerald-50 dark:text-emerald-300 dark:bg-emerald-950/50",
+};
+
+const levelColors: Record<string, string> = {
+  Beginner: "text-emerald-700 bg-emerald-50 dark:text-emerald-300 dark:bg-emerald-950/50",
+  Intermediate: "text-blue-700 bg-blue-50 dark:text-blue-300 dark:bg-blue-950/50",
+  Advanced: "text-purple-700 bg-purple-50 dark:text-purple-300 dark:bg-purple-950/50",
+};
 
 export default function Home() {
   const featuredCourses = courses.slice(0, 6);
@@ -7,48 +29,68 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-blue-50 to-white dark:from-blue-950/30 dark:to-slate-950 py-24">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-blue-100/50 via-transparent to-transparent" />
+      {/* Hero */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-blue-50 via-white to-white dark:from-slate-900 dark:via-slate-950 dark:to-slate-950 pt-20 pb-28">
+        {/* Background decoration */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-blue-100/60 dark:bg-blue-900/20 blur-3xl" />
+          <div className="absolute -bottom-20 -left-20 w-72 h-72 rounded-full bg-purple-100/50 dark:bg-purple-900/20 blur-3xl" />
+        </div>
+
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-6">
-            Master <span className="text-blue-600">Claude AI</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/50 border border-blue-100 dark:border-blue-900 text-blue-700 dark:text-blue-300 text-sm font-medium mb-8">
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+            Free access — all {courses.length} courses
+          </div>
+
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6 text-balance">
+            Master{" "}
+            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              Claude AI
+            </span>
             <br />& Anthropic Technologies
           </h1>
-          <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-10">
-            Structured courses, hands-on labs, and learning paths to help you become proficient with Claude, Claude Code, and the AI tools reshaping how we work.
+
+          <p className="text-lg sm:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+            Structured courses and hands-on learning paths to help you become
+            proficient with Claude, Claude Code, the Anthropic API, and MCP.
           </p>
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/courses" className="px-8 py-4 text-lg font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all shadow-lg shadow-blue-600/25">
+            <Link
+              href="/courses"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 text-base font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all shadow-lg shadow-blue-600/20 hover:shadow-blue-600/30"
+            >
               Browse All Courses
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              </svg>
             </Link>
-            <Link href="/paths" className="px-8 py-4 text-lg font-semibold bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-900 dark:text-white rounded-xl transition-all border border-slate-200 dark:border-slate-700">
+            <Link
+              href="/paths"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 text-base font-semibold bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-900 dark:text-white rounded-xl transition-all border border-slate-200 dark:border-slate-700 shadow-sm"
+            >
               View Learning Paths
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="bg-white dark:bg-slate-900 border-y border-slate-200 dark:border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-4xl font-bold text-blue-600">{courses.length}</div>
-              <div className="text-sm text-slate-500 dark:text-slate-400 mt-1">Courses</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-blue-600">{learningPaths.length}</div>
-              <div className="text-sm text-slate-500 dark:text-slate-400 mt-1">Learning Paths</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-blue-600">7</div>
-              <div className="text-sm text-slate-500 dark:text-slate-400 mt-1">Skill Tracks</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-blue-600">100%</div>
-              <div className="text-sm text-slate-500 dark:text-slate-400 mt-1">Free Access</div>
-            </div>
+      {/* Stats */}
+      <section className="border-y border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            {[
+              { value: courses.length, label: "Courses" },
+              { value: learningPaths.length, label: "Learning Paths" },
+              { value: "5", label: "Skill Tracks" },
+              { value: "100%", label: "Free Access" },
+            ].map(({ value, label }) => (
+              <div key={label} className="py-2">
+                <div className="text-3xl sm:text-4xl font-bold text-blue-600 tabular-nums">{value}</div>
+                <div className="text-sm text-slate-500 dark:text-slate-400 mt-1">{label}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -58,40 +100,49 @@ export default function Home() {
         <div className="flex items-end justify-between mb-10">
           <div>
             <h2 className="text-3xl font-bold tracking-tight">Featured Courses</h2>
-            <p className="text-slate-600 dark:text-slate-400 mt-2">Start your learning journey with these popular courses</p>
+            <p className="text-slate-500 dark:text-slate-400 mt-1.5 text-sm">
+              Directly inspired by{" "}
+              <a
+                href="https://anthropic.skilljar.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                Anthropic&apos;s official platform
+              </a>
+            </p>
           </div>
-          <Link href="/courses" className="text-blue-600 hover:text-blue-700 font-medium text-sm">
+          <Link href="/courses" className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors shrink-0">
             View all →
           </Link>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {featuredCourses.map((course) => (
             <Link
               key={course.slug}
               href={`/courses/${course.slug}`}
-              className="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 hover:shadow-xl hover:shadow-blue-500/10 transition-all hover:-translate-y-1"
+              className="group flex flex-col bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 hover:shadow-xl hover:shadow-blue-500/5 hover:-translate-y-0.5 transition-all duration-200"
             >
-              <div className="flex items-center gap-2 mb-4">
-                <span className={`w-2 h-2 rounded-full ${
-                  course.category === 'claude-code' ? 'bg-blue-500' :
-                  course.category === 'api' ? 'bg-purple-500' :
-                  course.category === 'mcp' ? 'bg-orange-500' :
-                  course.category === 'ai-fluency' ? 'bg-pink-500' :
-                  'bg-emerald-500'
-                }`} />
-                <span className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">
+              <div className="flex items-center justify-between mb-4">
+                <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${categoryTextColors[course.category]}`}>
+                  <span className={`w-1.5 h-1.5 rounded-full ${categoryColors[course.category]}`} />
                   {course.path}
                 </span>
+                <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${levelColors[course.level]}`}>
+                  {course.level}
+                </span>
               </div>
-              <h3 className="text-lg font-semibold mb-2 group-hover:text-blue-600 transition-colors">
+
+              <h3 className="text-base font-semibold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug">
                 {course.title}
               </h3>
-              <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-2 mb-4">
+              <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-2 mb-4 leading-relaxed flex-1">
                 {course.description}
               </p>
-              <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400">
-                <span>{course.level}</span>
-                <span>•</span>
+
+              <div className="flex items-center justify-between text-xs text-slate-400 dark:text-slate-500 pt-4 border-t border-slate-100 dark:border-slate-800">
+                <span>{course.modules.length} modules</span>
                 <span>{course.estimatedHours}</span>
               </div>
             </Link>
@@ -100,60 +151,114 @@ export default function Home() {
       </section>
 
       {/* Learning Paths */}
-      <section className="bg-slate-100 dark:bg-slate-900/50 py-20">
+      <section className="bg-slate-50 dark:bg-slate-900/50 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold tracking-tight">Learning Paths</h2>
-            <p className="text-slate-600 dark:text-slate-400 mt-2">Follow structured roadmaps designed for your goals</p>
+            <h2 className="text-3xl font-bold tracking-tight mb-3">Learning Paths</h2>
+            <p className="text-slate-500 dark:text-slate-400 max-w-xl mx-auto">
+              Structured roadmaps that guide you from first lesson to mastery, built for your role and goals.
+            </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {featuredPaths.map((path) => (
+
+          <div className="grid md:grid-cols-3 gap-5">
+            {featuredPaths.map((path, i) => (
               <Link
                 key={path.title}
                 href="/paths"
-                className="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 hover:shadow-lg transition-all"
+                className="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 hover:shadow-lg hover:shadow-slate-200/50 dark:hover:shadow-slate-900/50 hover:-translate-y-0.5 transition-all duration-200"
               >
-                <div className="flex items-center gap-2 mb-4">
-                  <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${
-                    path.level === 'Beginner' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400' :
-                    path.level === 'Intermediate' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-400' :
-                    'bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-400'
-                  }`}>
+                <div className="flex items-start justify-between gap-3 mb-4">
+                  <span className="text-3xl font-black text-slate-100 dark:text-slate-800 tabular-nums">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${levelColors[path.level]}`}>
                     {path.level}
                   </span>
                 </div>
-                <h3 className="text-lg font-semibold mb-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="font-semibold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                   {path.title}
                 </h3>
-                <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
+                <p className="text-sm text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
                   {path.description}
                 </p>
-                <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400">
+                <div className="flex items-center gap-3 text-xs text-slate-400 dark:text-slate-500">
                   <span>{path.courses.length} courses</span>
-                  <span>•</span>
+                  <span>·</span>
                   <span>{path.estimatedHours}</span>
                 </div>
               </Link>
             ))}
           </div>
+
           <div className="text-center mt-8">
-            <Link href="/paths" className="text-blue-600 hover:text-blue-700 font-medium">
-              View all learning paths →
+            <Link href="/paths" className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
+              View all {learningPaths.length} learning paths →
             </Link>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* Track categories */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-12 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Ready to get started?</h2>
-          <p className="text-blue-100 max-w-xl mx-auto mb-8">
-            Join the growing community of AI-fluent professionals. All courses are free to access.
-          </p>
-          <Link href="/courses" className="inline-flex px-8 py-4 bg-white text-blue-600 font-semibold rounded-xl hover:bg-blue-50 transition-colors">
-            Start Learning Now
-          </Link>
+        <div className="grid md:grid-cols-2 gap-10 items-center">
+          <div>
+            <h2 className="text-3xl font-bold tracking-tight mb-4">Five skill tracks</h2>
+            <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
+              Whether you&apos;re a developer integrating Claude into products, a teacher bringing AI into your classroom, or someone exploring AI for the first time — there&apos;s a track for you.
+            </p>
+            <Link href="/courses" className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 dark:text-blue-400 hover:gap-3 transition-all">
+              Explore all courses
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              </svg>
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 gap-3">
+            {[
+              { color: "bg-emerald-500", label: "Foundational", desc: "New to Claude? Start here." },
+              { color: "bg-blue-500", label: "Claude Code & Development", desc: "Coding with AI as your co-pilot." },
+              { color: "bg-purple-500", label: "API & Cloud Integrations", desc: "Build production AI apps." },
+              { color: "bg-orange-500", label: "Model Context Protocol", desc: "Extend Claude with custom tools." },
+              { color: "bg-pink-500", label: "AI Fluency", desc: "For educators, students & nonprofits." },
+            ].map((track) => (
+              <div key={track.label} className="flex items-center gap-4 p-4 rounded-xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900">
+                <span className={`w-3 h-3 rounded-full shrink-0 ${track.color}`} />
+                <div>
+                  <div className="text-sm font-semibold">{track.label}</div>
+                  <div className="text-xs text-slate-500 dark:text-slate-400">{track.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="pb-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative overflow-hidden bg-gradient-to-br from-blue-600 to-purple-700 rounded-3xl p-12 text-center">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(255,255,255,0.08),transparent)]" />
+            <div className="relative">
+              <h2 className="text-3xl font-bold text-white mb-3">Ready to get started?</h2>
+              <p className="text-blue-100 max-w-md mx-auto mb-8 leading-relaxed">
+                All courses are completely free. Sign in with GitHub to track your progress.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Link
+                  href="/courses"
+                  className="inline-flex items-center justify-center px-7 py-3.5 bg-white text-blue-700 font-semibold rounded-xl hover:bg-blue-50 transition-colors"
+                >
+                  Browse Courses
+                </Link>
+                <Link
+                  href="/sign-in"
+                  className="inline-flex items-center justify-center px-7 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl transition-colors border border-white/20"
+                >
+                  Sign in with GitHub
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </div>

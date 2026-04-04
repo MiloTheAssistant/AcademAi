@@ -67,26 +67,30 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
           {/* Course Modules */}
           <div className="mb-12">
             <h2 className="text-2xl font-bold mb-6">Course Modules</h2>
-            <div className="space-y-4">
+            <div className="space-y-3">
               {course.modules.map((module, index) => (
-                <div
+                <Link
                   key={module.title}
-                  className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5"
+                  href={`/courses/${course.slug}/lessons/${index}`}
+                  className="group flex items-start gap-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-md hover:shadow-blue-500/5 transition-all"
                 >
-                  <div className="flex items-start gap-4">
-                    <span className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 flex items-center justify-center text-sm font-medium">
-                      {index + 1}
-                    </span>
-                    <div>
-                      <h3 className="font-semibold mb-1">{module.title}</h3>
-                      {module.description && (
-                        <p className="text-sm text-slate-600 dark:text-slate-400">
-                          {module.description}
-                        </p>
-                      )}
-                    </div>
+                  <span className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 flex items-center justify-center text-sm font-medium group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                    {index + 1}
+                  </span>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                      {module.title}
+                    </h3>
+                    {module.description && (
+                      <p className="text-sm text-slate-600 dark:text-slate-400">
+                        {module.description}
+                      </p>
+                    )}
                   </div>
-                </div>
+                  <svg className="w-4 h-4 text-slate-300 dark:text-slate-600 group-hover:text-blue-400 shrink-0 mt-1 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                  </svg>
+                </Link>
               ))}
             </div>
           </div>
@@ -148,9 +152,12 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
                   <dd className="font-medium">{course.modules.length}</dd>
                 </div>
               </dl>
-              <button className="w-full mt-6 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-colors">
+              <Link
+                href={`/courses/${course.slug}/lessons/0`}
+                className="block w-full mt-6 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-colors text-center"
+              >
                 Start Course
-              </button>
+              </Link>
             </div>
 
             {/* Other Courses */}
