@@ -1,30 +1,20 @@
 /**
  * POST /api/stripe/portal
- *
- * Creates a Stripe Customer Portal session so subscribers can:
- *   - View and change their plan (weekly → monthly → yearly)
- *   - Update their payment method
- *   - Cancel their subscription
- *   - Download invoices
- *
- * Returns: { url: string }
- *
- * Setup:
- *   In Stripe Dashboard → Customer Portal → activate and configure the features you want to expose.
+ * Uses Clerk's auth() instead of NextAuth's session.
  */
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/auth';
+import { auth } from '@clerk/nextjs/server';
 import { stripe } from '@/lib/stripe';
 import { getSubscription } from '@/lib/subscription';
 
 export async function POST(req: NextRequest) {
-  const session = await auth();
+  const { userId } = await auth();
 
-  if (!session?.user?.id) {
+  if (!userId) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const sub = await getSubscription(session.user.id);
+  const sub = await getSubscription(userId);
 
   if (!sub?.stripeCustomerId) {
     return NextResponse.json({ error: 'No subscription found.' }, { status: 404 });

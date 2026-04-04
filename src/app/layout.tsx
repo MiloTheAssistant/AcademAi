@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
-import { auth } from "@/auth";
+import { ClerkProvider } from '@clerk/nextjs';
 import { NavClient } from "@/components/NavClient";
 
 export const metadata: Metadata = {
@@ -27,9 +27,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
-
   return (
+    <ClerkProvider>
     <html lang="en">
       <body className="antialiased bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
         <header className="sticky top-0 z-50 bg-white/90 dark:bg-slate-950/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
@@ -45,7 +44,7 @@ export default async function RootLayout({
                 <span className="font-bold text-lg tracking-tight">AcademAI</span>
               </Link>
 
-              <NavClient session={session} />
+              <NavClient />
             </div>
           </div>
         </header>
@@ -96,5 +95,6 @@ export default async function RootLayout({
         </footer>
       </body>
     </html>
+    </ClerkProvider>
   );
 }
