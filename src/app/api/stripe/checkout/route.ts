@@ -27,21 +27,29 @@ export async function POST(req: NextRequest) {
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
 
-  const checkoutSession = await stripe.checkout.sessions.create({
-    mode: 'subscription',
-    payment_method_types: ['card'],
-    billing_address_collection: 'required',
-    phone_number_collection: { enabled: true },
-    ...(email ? { customer_email: email } : {}),
-    line_items: [{ price: priceId, quantity: 1 }],
-    subscription_data: {
-      trial_period_days: TRIAL_PERIOD_DAYS,
+  try {
+    const checkoutSession = await stripe.checkout.sessions.create({
+      mode: 'subscription',
+      payment_method_types: ['card'],
+      billing_address_collection: 'required',
+      phone_number_collection: { enabled: true },
+      ...(email ? { customer_email: email } : {}),
+      line_items: [{ price: priceId, quantity: 1 }],
+      subscription_data: {
+        trial_period_days: TRIAL_PERIOD_DAYS,
+        metadata: { userId },
+      },
       metadata: { userId },
-    },
-    metadata: { userId },
-    success_url: `${appUrl}/courses?subscription=success`,
-    cancel_url:  `${appUrl}/pricing?canceled=true`,
-  });
+      success_url: `${appUrl}/courses?subscription=success`,
+      cancel_url:  `${appUrl}/pricing?canceled=true`,
+    });
 
-  return NextResponse.json({ url: checkoutSession.url });
+    return NextResponse.json({ url: checkoutSession.url });
+  } catch (err: any) {
+    console.error('Stripe checkout error:', err);
+    return NextResponse.json(
+      { error: err?.message ?? 'Failed to create checkout session.' },
+      { status: 500 }
+    );
+  }
 }
