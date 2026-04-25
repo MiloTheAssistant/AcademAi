@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useUser, SignOutButton } from "@clerk/nextjs";
 
@@ -34,9 +35,12 @@ export function NavClient() {
         {isLoaded && isSignedIn ? (
           <div className="flex items-center gap-3">
             {user.imageUrl && (
-              <img
+              <Image
                 src={user.imageUrl}
                 alt={user.fullName ?? "User"}
+                width={32}
+                height={32}
+                unoptimized
                 className="w-8 h-8 rounded-full border-2 border-slate-200 dark:border-slate-700"
               />
             )}
@@ -103,7 +107,14 @@ export function NavClient() {
                 <div className="flex items-center justify-between px-3 py-2">
                   <div className="flex items-center gap-2">
                     {user.imageUrl && (
-                      <img src={user.imageUrl} alt="" className="w-7 h-7 rounded-full" />
+                      <Image
+                        src={user.imageUrl}
+                        alt={user.fullName ?? "User"}
+                        width={28}
+                        height={28}
+                        unoptimized
+                        className="w-7 h-7 rounded-full"
+                      />
                     )}
                     <span className="text-sm font-medium">{user.fullName}</span>
                   </div>

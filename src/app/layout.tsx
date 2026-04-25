@@ -28,7 +28,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider clerkJSUrl="https://unpkg.com/@clerk/clerk-js@6/dist/clerk.browser.js">
+    <ClerkProvider>
     <html lang="en">
       <body className="antialiased bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
         <header className="sticky top-0 z-50 bg-white/90 dark:bg-slate-950/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">

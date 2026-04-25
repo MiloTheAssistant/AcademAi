@@ -16,17 +16,28 @@
  *   2. Copy the Signing Secret → STRIPE_WEBHOOK_SECRET env var
  */
 import { NextRequest, NextResponse } from 'next/server';
-import { stripe } from '@/lib/stripe';
+import { getStripe } from '@/lib/stripe';
 import {
   setSubscription,
-  deleteSubscription,
   setCustomerMapping,
   getUserIdByCustomer,
 } from '@/lib/subscription';
+import type { SubscriptionData } from '@/lib/subscription';
 import type Stripe from 'stripe';
 
 // Next.js needs the raw body to verify Stripe's signature.
 export const dynamic = 'force-dynamic';
+
+function getPlanInterval(subscription: Stripe.Subscription): SubscriptionData['planInterval'] {
+  const interval = subscription.items.data[0]?.price?.recurring?.interval;
+  return interval === 'week' || interval === 'month' || interval === 'year'
+    ? interval
+    : 'month';
+}
+
+function getCurrentPeriodEnd(subscription: Stripe.Subscription): number {
+  return subscription.items.data[0]?.current_period_end ?? Math.floor(Date.now() / 1000) + 86400;
+}
 
 export async function POST(req: NextRequest) {
   const body = await req.text();
@@ -38,9 +49,10 @@ export async function POST(req: NextRequest) {
 
   let event: Stripe.Event;
   try {
-    event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET!);
-  } catch (err: any) {
-    console.error('⚠️  Stripe webhook signature verification failed:', err.message);
+    event = getStripe().webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET!);
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Unknown signature verification error';
+    console.error('Stripe webhook signature verification failed:', message);
     return NextResponse.json({ error: 'Invalid webhook signature.' }, { status: 400 });
   }
 
@@ -56,17 +68,16 @@ export async function POST(req: NextRequest) {
         if (!userId || !session.subscription || !session.customer) break;
 
         // Fetch the full subscription object so we have all the details.
-        const subscription = await stripe.subscriptions.retrieve(session.subscription as string);
-        const item = subscription.items.data[0];
-        const priceInterval = item?.price?.recurring?.interval as 'week' | 'month' | 'year';
-        const currentPeriodEnd = (item as any)?.current_period_end ?? Math.floor(Date.now() / 1000) + 86400;
-        const trialEnd = (subscription as any).trial_end as number | null;
+        const subscription = await getStripe().subscriptions.retrieve(session.subscription as string);
+        const priceInterval = getPlanInterval(subscription);
+        const currentPeriodEnd = getCurrentPeriodEnd(subscription);
+        const trialEnd = subscription.trial_end;
 
         await setCustomerMapping(session.customer as string, userId);
         await setSubscription(userId, {
           stripeCustomerId:     session.customer as string,
           stripeSubscriptionId: subscription.id,
-          status:               subscription.status as any,
+          status:               subscription.status,
           planInterval:         priceInterval,
           currentPeriodEnd,
           ...(trialEnd ? { trialEnd } : {}),
@@ -89,15 +100,14 @@ export async function POST(req: NextRequest) {
           break;
         }
 
-        const item = subscription.items.data[0];
-        const priceInterval = item?.price?.recurring?.interval as 'week' | 'month' | 'year';
-        const currentPeriodEnd = (item as any)?.current_period_end ?? Math.floor(Date.now() / 1000) + 86400;
-        const trialEnd = (subscription as any).trial_end as number | null;
+        const priceInterval = getPlanInterval(subscription);
+        const currentPeriodEnd = getCurrentPeriodEnd(subscription);
+        const trialEnd = subscription.trial_end;
 
         await setSubscription(userId, {
           stripeCustomerId:     customerId,
           stripeSubscriptionId: subscription.id,
-          status:               subscription.status as any,
+          status:               subscription.status,
           planInterval:         priceInterval,
           currentPeriodEnd,
           ...(trialEnd ? { trialEnd } : {}),
@@ -122,8 +132,8 @@ export async function POST(req: NextRequest) {
           stripeCustomerId:     customerId,
           stripeSubscriptionId: subscription.id,
           status:               'canceled',
-          planInterval:         subscription.items.data[0]?.price?.recurring?.interval as 'week' | 'month' | 'year',
-          currentPeriodEnd:     (subscription.items.data[0] as any)?.current_period_end ?? Math.floor(Date.now() / 1000),
+          planInterval:         getPlanInterval(subscription),
+          currentPeriodEnd:     getCurrentPeriodEnd(subscription),
         });
 
         console.log(`❌ Subscription canceled for user ${userId}`);

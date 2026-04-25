@@ -1,9 +1,16 @@
 import Stripe from 'stripe';
 
-// Initialize the Stripe client with your secret key
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-03-31.basil',
-});
+let stripeClient: Stripe | null = null;
+
+export function getStripe(): Stripe {
+  if (!stripeClient) {
+    stripeClient = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+      apiVersion: '2025-03-31.basil',
+    });
+  }
+
+  return stripeClient;
+}
 
 // Price IDs created in Stripe (sandbox)
 // Product: AcademAI Members (prod_UGtbfZnAcw1ae8)

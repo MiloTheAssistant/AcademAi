@@ -2,22 +2,6 @@ import Link from "next/link";
 import { courses, learningPaths } from "@/data/courses";
 import { CourseGrid, type CourseCardData } from "@/components/CourseGrid";
 
-const categoryColors: Record<string, string> = {
-  "claude-code": "bg-blue-500",
-  api: "bg-purple-500",
-  mcp: "bg-orange-500",
-  "ai-fluency": "bg-pink-500",
-  foundational: "bg-emerald-500",
-};
-
-const categoryTextColors: Record<string, string> = {
-  "claude-code": "text-blue-700 bg-blue-50 dark:text-blue-300 dark:bg-blue-950/50",
-  api: "text-purple-700 bg-purple-50 dark:text-purple-300 dark:bg-purple-950/50",
-  mcp: "text-orange-700 bg-orange-50 dark:text-orange-300 dark:bg-orange-950/50",
-  "ai-fluency": "text-pink-700 bg-pink-50 dark:text-pink-300 dark:bg-pink-950/50",
-  foundational: "text-emerald-700 bg-emerald-50 dark:text-emerald-300 dark:bg-emerald-950/50",
-};
-
 const levelColors: Record<string, string> = {
   Beginner: "text-emerald-700 bg-emerald-50 dark:text-emerald-300 dark:bg-emerald-950/50",
   Intermediate: "text-blue-700 bg-blue-50 dark:text-blue-300 dark:bg-blue-950/50",

@@ -25,7 +25,7 @@ export function useProgress() {
 
   // Hydrate from localStorage on mount
   useEffect(() => {
-    setProgress(readStorage());
+    const hydrateTimer = window.setTimeout(() => setProgress(readStorage()), 0);
 
     // Sync across tabs
     const onStorage = (e: StorageEvent) => {
@@ -34,7 +34,10 @@ export function useProgress() {
       }
     };
     window.addEventListener("storage", onStorage);
-    return () => window.removeEventListener("storage", onStorage);
+    return () => {
+      window.clearTimeout(hydrateTimer);
+      window.removeEventListener("storage", onStorage);
+    };
   }, []);
 
   const markComplete = useCallback((slug: string, moduleIndex: number) => {
