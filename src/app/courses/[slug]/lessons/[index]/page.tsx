@@ -63,7 +63,6 @@ export default async function LessonPage({
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
-      <ProgressTracker slug={slug} moduleIndex={moduleIndex} />
       {/* Top breadcrumb bar */}
       <div className="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 sticky top-16 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-11 flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
@@ -111,6 +110,9 @@ export default async function LessonPage({
               {mod.description && (
                 <p className="text-slate-500 dark:text-slate-400">{mod.description}</p>
               )}
+              <div className="mt-5">
+                <ProgressTracker slug={slug} moduleIndex={moduleIndex} />
+              </div>
             </div>
 
             {/* Lesson body */}

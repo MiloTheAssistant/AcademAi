@@ -2,12 +2,12 @@
  * POST /api/stripe/portal
  * Uses Clerk's auth() instead of NextAuth's session.
  */
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
-import { stripe } from '@/lib/stripe';
+import { getStripe } from '@/lib/stripe';
 import { getSubscription } from '@/lib/subscription';
 
-export async function POST(req: NextRequest) {
+export async function POST() {
   const { userId } = await auth();
 
   if (!userId) {
@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
 
-  const portalSession = await stripe.billingPortal.sessions.create({
+  const portalSession = await getStripe().billingPortal.sessions.create({
     customer: sub.stripeCustomerId,
     return_url: `${appUrl}/courses`,
   });

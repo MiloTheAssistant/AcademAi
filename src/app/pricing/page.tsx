@@ -13,6 +13,7 @@
  */
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 // --------------------------------------------------------------------------
@@ -110,7 +111,7 @@ const FEATURES = [
     icon: '📊',
     title: 'Progress Tracking',
     description:
-      'Your progress is saved automatically across every device. Pick up exactly where you left off.',
+      'Your progress is saved locally in your browser so you can pick up where you left off.',
   },
   {
     icon: '🔄',
@@ -177,9 +178,9 @@ export default function PricingPage() {
       }
       if (!res.ok) throw new Error(data.error ?? 'Something went wrong');
       if (data.url) window.location.href = data.url;
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      alert(err.message ?? 'Failed to start checkout. Please try again.');
+      alert(err instanceof Error ? err.message : 'Failed to start checkout. Please try again.');
     } finally {
       setLoadingPlan(null);
     }
@@ -223,12 +224,12 @@ export default function PricingPage() {
             >
               See Plans & Start Free Trial →
             </button>
-            <a
+            <Link
               href="/courses"
               className="px-8 py-4 rounded-xl border border-slate-700 text-slate-300 font-semibold text-base hover:border-slate-500 transition-colors"
             >
               Browse Courses
-            </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -289,7 +290,7 @@ export default function PricingPage() {
           </h2>
           <p className="text-center text-slate-400 mb-4 max-w-xl mx-auto">
             All plans include a <strong className="text-white">24-hour free trial</strong>.
-            Your payment method is required to start — you won't be charged until the trial ends.
+            Your payment method is required to start — you won&apos;t be charged until the trial ends.
           </p>
           <p className="text-center text-xs text-slate-500 mb-14">
             Name, billing address, and mobile number are collected at checkout.
