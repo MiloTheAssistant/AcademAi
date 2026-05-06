@@ -22,6 +22,7 @@ import {
   setCustomerMapping,
   getUserIdByCustomer,
 } from '@/lib/subscription';
+import { updateClerkSubscriptionMetadata } from '@/lib/clerk-subscription';
 import type { SubscriptionData } from '@/lib/subscription';
 import type Stripe from 'stripe';
 
@@ -73,15 +74,18 @@ export async function POST(req: NextRequest) {
         const currentPeriodEnd = getCurrentPeriodEnd(subscription);
         const trialEnd = subscription.trial_end;
 
-        await setCustomerMapping(session.customer as string, userId);
-        await setSubscription(userId, {
+        const subscriptionData: SubscriptionData = {
           stripeCustomerId:     session.customer as string,
           stripeSubscriptionId: subscription.id,
           status:               subscription.status,
           planInterval:         priceInterval,
           currentPeriodEnd,
           ...(trialEnd ? { trialEnd } : {}),
-        });
+        };
+
+        await setCustomerMapping(session.customer as string, userId);
+        await setSubscription(userId, subscriptionData);
+        await updateClerkSubscriptionMetadata(userId, subscriptionData);
 
         console.log(`✅ Subscription created for user ${userId} (${subscription.status})`);
         break;
@@ -104,14 +108,17 @@ export async function POST(req: NextRequest) {
         const currentPeriodEnd = getCurrentPeriodEnd(subscription);
         const trialEnd = subscription.trial_end;
 
-        await setSubscription(userId, {
+        const subscriptionData: SubscriptionData = {
           stripeCustomerId:     customerId,
           stripeSubscriptionId: subscription.id,
           status:               subscription.status,
           planInterval:         priceInterval,
           currentPeriodEnd,
           ...(trialEnd ? { trialEnd } : {}),
-        });
+        };
+
+        await setSubscription(userId, subscriptionData);
+        await updateClerkSubscriptionMetadata(userId, subscriptionData);
 
         console.log(`🔄 Subscription updated for user ${userId} → ${subscription.status}`);
         break;
@@ -128,13 +135,16 @@ export async function POST(req: NextRequest) {
         if (!userId) break;
 
         // Mark as canceled rather than deleting, so the UI can show a message.
-        await setSubscription(userId, {
+        const subscriptionData: SubscriptionData = {
           stripeCustomerId:     customerId,
           stripeSubscriptionId: subscription.id,
           status:               'canceled',
           planInterval:         getPlanInterval(subscription),
           currentPeriodEnd:     getCurrentPeriodEnd(subscription),
-        });
+        };
+
+        await setSubscription(userId, subscriptionData);
+        await updateClerkSubscriptionMetadata(userId, subscriptionData);
 
         console.log(`❌ Subscription canceled for user ${userId}`);
         break;

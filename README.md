@@ -20,6 +20,37 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Integrations
+
+Required environment variables:
+
+```env
+NEXT_PUBLIC_APP_URL=https://academai.app
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=...
+CLERK_SECRET_KEY=...
+STRIPE_SECRET_KEY=...
+STRIPE_WEBHOOK_SECRET=...
+KV_URL=...
+KV_REST_API_URL=...
+KV_REST_API_TOKEN=...
+KV_REST_API_READ_ONLY_TOKEN=...
+```
+
+Stripe:
+
+- Checkout is created in `src/app/api/stripe/checkout/route.ts`.
+- Stripe webhooks update KV and Clerk private metadata in `src/app/api/stripe/webhook/route.ts`.
+- Configure the production webhook endpoint as `https://academai.app/api/stripe/webhook`.
+- Required events: `checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted`.
+
+Clerk and Microsoft Graph:
+
+- Clerk protects paid learning routes in `src/proxy.ts`.
+- Microsoft Graph is called server-side from `src/lib/microsoft-graph.ts`.
+- The account page at `/account` validates the Clerk user, Stripe membership, and Microsoft Graph `/me` access.
+- The Clerk Microsoft connection must request Microsoft Graph delegated `User.Read` access.
+- In Azure App Registration, add the exact Clerk Microsoft redirect URI as a Web redirect URI and enable ID tokens.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

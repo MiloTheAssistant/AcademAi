@@ -25,6 +25,11 @@ export function NavClient() {
         <Link href="/pricing" className="px-3 py-2 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
           Pricing
         </Link>
+        {isLoaded && isSignedIn && (
+          <Link href="/account" className="px-3 py-2 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+            Account
+          </Link>
+        )}
         <Link href="/about" className="px-3 py-2 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
           About
         </Link>
@@ -99,6 +104,11 @@ export function NavClient() {
             <Link href="/pricing" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
               Pricing
             </Link>
+            {isLoaded && isSignedIn && (
+              <Link href="/account" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                Account
+              </Link>
+            )}
             <Link href="/about" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
               About
             </Link>
