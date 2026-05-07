@@ -5,16 +5,22 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 First, run the development server:
 
 ```bash
-npm run dev
+npm run dev -- --port 3002
 # or
-yarn dev
+yarn dev --port 3002
 # or
-pnpm dev
+pnpm dev --port 3002
 # or
-bun dev
+bun dev --port 3002
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3002](http://localhost:3002) with your browser to see the result.
+
+Local port assignment:
+
+- Normal dev port: `3002`
+- Alternate, preview, or debug port: `3003`
+- Full project map: [`docs/local-port-map.md`](docs/local-port-map.md)
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
