@@ -3,7 +3,10 @@ export interface CourseModule {
   description?: string;
 }
 
+export type Provider = 'anthropic' | 'openai' | 'perplexity';
+
 export interface Course {
+  provider: Provider;
   slug: string;
   title: string;
   description: string;
@@ -17,7 +20,9 @@ export interface Course {
   updatedAt?: string;
 }
 
-export const courses: Course[] = [
+type CourseSeed = Omit<Course, 'provider'>;
+
+export const courses: Course[] = ([
   {
     slug: 'claude-101',
     title: 'Claude 101',
@@ -29,13 +34,13 @@ export const courses: Course[] = [
     modules: [
       { title: 'Getting Started with Claude', description: 'Creating an account, interface overview, basic conversation mechanics' },
       { title: 'Core Features and Capabilities', description: 'Natural language understanding, context retention, multi-turn conversations' },
-      { title: 'Effective Prompting Techniques', description: 'Clear instructions, providing context, chain-of-thought prompting' },
+      { title: 'Effective Prompting Techniques', description: 'Clear instructions, context, examples, and safe verification loops' },
       { title: 'Common Work Task Applications', description: 'Email drafting, document summarization, research, brainstorming' },
       { title: 'Best Practices and Safety Guidelines', description: 'Responsible AI use, understanding limitations, privacy considerations' }
     ],
     resources: [
       'https://claude.ai/',
-      'https://docs.anthropic.com/claude/docs/prompt-engineering'
+      'https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview'
     ]
   },
   {
@@ -141,7 +146,7 @@ export const courses: Course[] = [
     ],
     prerequisites: ['Basic programming knowledge', 'REST API familiarity'],
     resources: [
-      'https://docs.anthropic.com/claude-api'
+      'https://docs.anthropic.com/en/api/messages'
     ]
   },
   {
@@ -329,7 +334,10 @@ export const courses: Course[] = [
       'https://www.anthropic.com/ai-fluency/nonprofits'
     ]
   }
-];
+] satisfies CourseSeed[]).map((course) => ({
+  ...course,
+  provider: 'anthropic',
+}));
 
 export const learningPaths = [
   {

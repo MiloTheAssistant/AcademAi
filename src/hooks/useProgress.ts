@@ -2,41 +2,27 @@
 
 import { useState, useEffect, useCallback } from "react";
 
-const STORAGE_KEY = "academai-progress";
-
 type ProgressMap = Record<string, number[]>;
-
-function readStorage(): ProgressMap {
-  if (typeof window === "undefined") return {};
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "{}");
-  } catch {
-    return {};
-  }
-}
-
-function writeStorage(map: ProgressMap) {
-  if (typeof window === "undefined") return;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(map));
-}
 
 export function useProgress() {
   const [progress, setProgress] = useState<ProgressMap>({});
 
-  // Hydrate from localStorage on mount
   useEffect(() => {
-    const hydrateTimer = window.setTimeout(() => setProgress(readStorage()), 0);
-
-    // Sync across tabs
-    const onStorage = (e: StorageEvent) => {
-      if (e.key === STORAGE_KEY) {
-        setProgress(readStorage());
+    let active = true;
+    async function hydrate() {
+      try {
+        const res = await fetch("/api/progress", { cache: "no-store" });
+        if (!active || !res.ok) return;
+        const data = await res.json() as { progress?: ProgressMap };
+        setProgress(data.progress ?? {});
+      } catch {
+        if (active) setProgress({});
       }
-    };
-    window.addEventListener("storage", onStorage);
+    }
+
+    void hydrate();
     return () => {
-      window.clearTimeout(hydrateTimer);
-      window.removeEventListener("storage", onStorage);
+      active = false;
     };
   }, []);
 
@@ -44,9 +30,12 @@ export function useProgress() {
     setProgress((prev) => {
       const existing = prev[slug] ?? [];
       if (existing.includes(moduleIndex)) return prev;
-      const next = { ...prev, [slug]: [...existing, moduleIndex].sort((a, b) => a - b) };
-      writeStorage(next);
-      return next;
+      return { ...prev, [slug]: [...existing, moduleIndex].sort((a, b) => a - b) };
+    });
+    void fetch("/api/progress", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ slug, moduleIndex, completed: true }),
     });
   }, []);
 
@@ -55,8 +44,12 @@ export function useProgress() {
       const existing = prev[slug] ?? [];
       const next = { ...prev, [slug]: existing.filter((i) => i !== moduleIndex) };
       if (next[slug].length === 0) delete next[slug];
-      writeStorage(next);
       return next;
+    });
+    void fetch("/api/progress", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ slug, moduleIndex, completed: false }),
     });
   }, []);
 
@@ -64,8 +57,10 @@ export function useProgress() {
     setProgress((prev) => {
       const next = { ...prev };
       delete next[slug];
-      writeStorage(next);
       return next;
+    });
+    void fetch(`/api/progress?course=${encodeURIComponent(slug)}`, {
+      method: "DELETE",
     });
   }, []);
 

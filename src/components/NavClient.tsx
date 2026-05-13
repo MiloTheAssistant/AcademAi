@@ -22,6 +22,12 @@ export function NavClient() {
         <Link href="/progress" className="px-3 py-2 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
           My Progress
         </Link>
+        <Link href="/syllabus" className="px-3 py-2 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+          Syllabus
+        </Link>
+        <Link href="/certificates" className="px-3 py-2 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+          Certificates
+        </Link>
         <Link href="/pricing" className="px-3 py-2 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
           Pricing
         </Link>
@@ -100,6 +106,12 @@ export function NavClient() {
             </Link>
             <Link href="/progress" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
               My Progress
+            </Link>
+            <Link href="/syllabus" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+              Syllabus
+            </Link>
+            <Link href="/certificates" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+              Certificates
             </Link>
             <Link href="/pricing" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
               Pricing

@@ -1,9 +1,13 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { auth } from "@clerk/nextjs/server";
 import { courses, getCourseBySlug } from "@/data/courses";
 import { getLessonContent } from "@/data/lessons";
 import { LessonSidebar } from "@/components/LessonSidebar";
 import { ProgressTracker } from "@/components/ProgressTracker";
+import { requireActiveMembership } from "@/lib/entitlements";
+
+export const dynamic = "force-dynamic";
 
 export async function generateStaticParams() {
   const params: { slug: string; index: string }[] = [];
@@ -52,6 +56,12 @@ export default async function LessonPage({
   const moduleIndex = parseInt(index, 10);
   if (isNaN(moduleIndex) || moduleIndex < 0 || moduleIndex >= course.modules.length) {
     notFound();
+  }
+
+  if (moduleIndex > 0) {
+    const { userId } = await auth();
+    if (!userId) redirect(`/sign-in?callbackUrl=/courses/${slug}/lessons/${moduleIndex}`);
+    await requireActiveMembership(userId);
   }
 
   const mod = course.modules[moduleIndex];
@@ -184,13 +194,13 @@ export default async function LessonPage({
                 </Link>
               ) : (
                 <Link
-                  href={`/courses/${slug}`}
+                  href={`/courses/${slug}/assessment`}
                   className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium transition-colors"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                   </svg>
-                  Course complete!
+                  Take scenario test
                 </Link>
               )}
             </div>

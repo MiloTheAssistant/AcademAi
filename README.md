@@ -36,18 +36,29 @@ NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=...
 CLERK_SECRET_KEY=...
 STRIPE_SECRET_KEY=...
 STRIPE_WEBHOOK_SECRET=...
-KV_URL=...
-KV_REST_API_URL=...
-KV_REST_API_TOKEN=...
-KV_REST_API_READ_ONLY_TOKEN=...
+DATABASE_URL=...
+ANTHROPIC_API_KEY=...
+ANTHROPIC_SYLLABUS_MODEL=claude-sonnet-4-5
 ```
 
 Stripe:
 
 - Checkout is created in `src/app/api/stripe/checkout/route.ts`.
-- Stripe webhooks update KV and Clerk private metadata in `src/app/api/stripe/webhook/route.ts`.
+- Stripe webhooks update Neon Postgres and Clerk private metadata in `src/app/api/stripe/webhook/route.ts`.
 - Configure the production webhook endpoint as `https://academai.app/api/stripe/webhook`.
 - Required events: `checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted`.
+
+Neon Postgres:
+
+- Apply the database schema in `docs/database/schema.sql`.
+- `@vercel/kv` is intentionally not used; Vercel KV has been replaced with Neon Postgres for durable learning records.
+- Subscription state, lesson progress, assessment attempts, generated syllabi, and certificates are stored in Postgres.
+- Existing `KV_*` or `REDIS_URL` Vercel environment variables can be removed after the Neon migration is applied and the production deployment is promoted.
+
+Anthropic syllabus generation:
+
+- `/syllabus` uses Claude first when `ANTHROPIC_API_KEY` is configured.
+- If the key is missing or the API call fails, the route saves a structured template fallback so the paid workflow still functions.
 
 Clerk and Microsoft Graph:
 

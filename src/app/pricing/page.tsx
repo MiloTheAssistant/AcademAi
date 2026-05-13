@@ -32,8 +32,8 @@ const PLANS = [
     features: [
       'Full access to all courses',
       'All learning paths',
-      'Skill track library',
-      'Progress tracking',
+      'Scenario mastery tests',
+      'Durable progress tracking',
       'Cancel anytime',
     ],
     highlight: false,
@@ -53,8 +53,8 @@ const PLANS = [
     features: [
       'Everything in Weekly',
       'Priority content updates',
-      'All new courses as they launch',
-      'Progress tracking',
+      'AI-generated Claude syllabus',
+      'AcademAI certificates',
       'Cancel anytime',
     ],
     highlight: true,
@@ -74,8 +74,8 @@ const PLANS = [
     features: [
       'Everything in Monthly',
       'Lowest price guaranteed',
-      'All future courses included',
-      'Progress tracking',
+      'All future provider tracks included',
+      'Certificate history',
       'Cancel anytime',
     ],
     highlight: false,
@@ -111,7 +111,7 @@ const FEATURES = [
     icon: '📊',
     title: 'Progress Tracking',
     description:
-      'Your progress is saved locally in your browser so you can pick up where you left off.',
+      'Your progress is tied to your account so you can pick up where you left off.',
   },
   {
     icon: '🔄',
@@ -212,7 +212,8 @@ export default function PricingPage() {
 
           <p className="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto mb-10">
             Structured courses, guided learning paths, and focused skill tracks for Claude AI,
-            the Anthropic API, Claude Code, and the Model Context Protocol — all in one membership.
+            the Anthropic API, Claude Code, and the Model Context Protocol — with paid practice tests,
+            syllabi, and certificates in one membership.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

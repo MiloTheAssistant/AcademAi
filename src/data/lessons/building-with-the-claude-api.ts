@@ -11,7 +11,7 @@ const lessons: LessonContent[] = [
 <p>The Claude API gives developers programmatic access to Claude's capabilities — the same intelligence behind claude.ai, accessible via HTTP requests from any language or platform. Building with the API means you can embed Claude's capabilities into your own products, automate workflows, and build entirely new applications.</p>
 
 <h3>API Architecture</h3>
-<p>The Claude API is a REST API hosted at <code>api.anthropic.com</code>. The primary endpoint is the Messages API, which follows a request/response pattern:</p>
+<p>The Claude API is a REST API hosted at <code>api.anthropic.com</code>. The primary endpoint for most new builds is the Messages API, which follows a request/response pattern:</p>
 <ul>
   <li>You send a POST request with a model name, a list of messages, and configuration parameters</li>
   <li>Claude processes the request and returns a response with the generated content</li>
@@ -19,13 +19,13 @@ const lessons: LessonContent[] = [
 </ul>
 
 <h3>Available Models</h3>
-<p>Anthropic offers a tiered model family:</p>
+<p>Anthropic offers a versioned model family. Exact names and availability change, so production apps should read the current model list from Anthropic docs and pin deliberate versions:</p>
 <ul>
   <li><strong>Claude Haiku</strong> — fastest and most cost-efficient; ideal for high-volume, latency-sensitive tasks</li>
   <li><strong>Claude Sonnet</strong> — balanced capability and cost; the best choice for most production applications</li>
   <li><strong>Claude Opus</strong> — highest capability; use for complex reasoning where quality trumps speed</li>
 </ul>
-<p>Models are versioned (e.g., <code>claude-sonnet-4-5</code>). Pin to a specific version in production for stability; use the <code>latest</code> alias during development.</p>
+<p>Models are versioned. Pin to a specific model version in production for stability, and review release notes before upgrading.</p>
 
 <h3>Key Capabilities via API</h3>
 <ul>

@@ -65,6 +65,11 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
 
           <h1 className="text-4xl font-bold tracking-tight mb-6">{course.title}</h1>
           <p className="text-lg text-slate-600 dark:text-slate-400 mb-4">{course.description}</p>
+          <div className="mb-6 rounded-2xl border border-blue-200 bg-blue-50 p-5 text-sm text-blue-900 dark:border-blue-900 dark:bg-blue-950/30 dark:text-blue-100">
+            <strong>Free intro, paid mastery.</strong> Module 1 is open as a preview. Full lessons,
+            durable progress, scenario testing, AI-generated syllabus tools, and certificates require
+            an active AcademAI membership.
+          </div>
           <CourseResumeBanner slug={course.slug} totalModules={course.modules.length} />
 
           {/* Course Modules */}
@@ -96,6 +101,20 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
                 </Link>
               ))}
             </div>
+          </div>
+
+          <div className="mb-12 rounded-2xl border border-emerald-200 bg-emerald-50 p-6 dark:border-emerald-900 dark:bg-emerald-950/30">
+            <h2 className="text-xl font-bold">Scenario mastery test</h2>
+            <p className="mt-2 text-sm text-emerald-900 dark:text-emerald-100">
+              After completing the modules, pass a realistic scenario test to qualify for an
+              AcademAI completion certificate.
+            </p>
+            <Link
+              href={`/courses/${course.slug}/assessment`}
+              className="mt-4 inline-flex rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-700"
+            >
+              Take scenario test
+            </Link>
           </div>
 
           {/* Prerequisites */}

@@ -97,7 +97,7 @@ export async function POST(req: NextRequest) {
       case 'customer.subscription.updated': {
         const subscription = event.data.object as Stripe.Subscription;
         const customerId = subscription.customer as string;
-        const userId = await getUserIdByCustomer(customerId);
+        const userId = await getUserIdByCustomer(customerId) ?? subscription.metadata?.userId;
 
         if (!userId) {
           console.warn(`No userId found for Stripe customer ${customerId}`);
@@ -130,7 +130,7 @@ export async function POST(req: NextRequest) {
       case 'customer.subscription.deleted': {
         const subscription = event.data.object as Stripe.Subscription;
         const customerId = subscription.customer as string;
-        const userId = await getUserIdByCustomer(customerId);
+        const userId = await getUserIdByCustomer(customerId) ?? subscription.metadata?.userId;
 
         if (!userId) break;
 

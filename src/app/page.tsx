@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { courses, learningPaths } from "@/data/courses";
 import { CourseGrid, type CourseCardData } from "@/components/CourseGrid";
 
@@ -24,48 +25,75 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-blue-50 via-white to-white dark:from-slate-900 dark:via-slate-950 dark:to-slate-950 pt-20 pb-28">
-        {/* Background decoration */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-blue-100/60 dark:bg-blue-900/20 blur-3xl" />
-          <div className="absolute -bottom-20 -left-20 w-72 h-72 rounded-full bg-purple-100/50 dark:bg-purple-900/20 blur-3xl" />
-        </div>
+      <section className="relative min-h-[calc(100vh-4rem)] overflow-hidden bg-white">
+        <Image
+          src="/brand/website/profile-background.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/88 to-white/18" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/35 via-transparent to-white/92" />
+        <div className="absolute left-0 top-0 h-full w-2/3 bg-[radial-gradient(circle_at_18%_30%,rgba(37,99,235,0.12),transparent_34%),radial-gradient(circle_at_34%_74%,rgba(124,58,237,0.10),transparent_32%)]" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/50 border border-blue-100 dark:border-blue-900 text-blue-700 dark:text-blue-300 text-sm font-medium mb-8">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-            24-hour free trial — all {courses.length} courses included
-          </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 min-h-[calc(100vh-4rem)] flex items-center">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 border border-blue-100 text-blue-700 text-sm font-medium mb-8 shadow-sm shadow-blue-950/5 backdrop-blur">
+              <Image
+                src="/brand/website/profile-stamp.png"
+                alt=""
+                width={22}
+                height={22}
+                className="rounded-full"
+              />
+              Free intro previews — paid mastery console for Claude
+            </div>
 
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6 text-balance">
-            Master{" "}
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Claude AI
-            </span>
-            <br />& Anthropic Technologies
-          </h1>
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6 text-balance text-slate-950">
+              Master{" "}
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Claude AI
+              </span>
+              <br />& Anthropic Technologies
+            </h1>
 
-          <p className="text-lg sm:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Structured courses and hands-on learning paths to help you become
-            proficient with Claude, Claude Code, the Anthropic API, and MCP.
-          </p>
+            <p className="text-lg sm:text-xl text-slate-600 max-w-2xl mb-8 leading-relaxed">
+              Start with open previews, then unlock durable progress, scenario tests,
+              AI-generated syllabi, and AcademAI certificates for Claude mastery.
+            </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/courses"
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 text-base font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all shadow-lg shadow-blue-600/20 hover:shadow-blue-600/30"
-            >
-              Browse All Courses
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-              </svg>
-            </Link>
-            <Link
-              href="/paths"
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 text-base font-semibold bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-900 dark:text-white rounded-xl transition-all border border-slate-200 dark:border-slate-700 shadow-sm"
-            >
-              View Learning Paths
-            </Link>
+            <div className="grid grid-cols-3 gap-3 max-w-xl mb-10">
+              {[
+                ["Practice", "Scenario tests"],
+                ["Progress", "Durable tracking"],
+                ["Proof", "Certificates"],
+              ].map(([label, detail]) => (
+                <div key={label} className="rounded-xl border border-slate-200 bg-white/82 px-4 py-3 shadow-sm shadow-slate-950/5 backdrop-blur">
+                  <div className="text-sm font-bold text-slate-950">{label}</div>
+                  <div className="text-xs text-slate-500 mt-1">{detail}</div>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link
+                href="/courses"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 text-base font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all shadow-lg shadow-blue-600/20 hover:shadow-blue-600/30"
+              >
+                Browse All Courses
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </Link>
+              <Link
+                href="/paths"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 text-base font-semibold bg-white/88 hover:bg-white text-slate-900 rounded-xl transition-all border border-slate-200 shadow-sm backdrop-blur"
+              >
+                View Learning Paths
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -78,7 +106,7 @@ export default function Home() {
               { value: courses.length, label: "Courses" },
               { value: learningPaths.length, label: "Learning Paths" },
               { value: "5", label: "Skill Tracks" },
-              { value: "24h", label: "Free Trial" },
+              { value: "24h", label: "Trial" },
             ].map(({ value, label }) => (
               <div key={label} className="py-2">
                 <div className="text-3xl sm:text-4xl font-bold text-blue-600 tabular-nums">{value}</div>
@@ -205,7 +233,8 @@ export default function Home() {
             <div className="relative">
               <h2 className="text-3xl font-bold text-white mb-3">Ready to get started?</h2>
               <p className="text-blue-100 max-w-md mx-auto mb-8 leading-relaxed">
-                All courses are completely free. Sign in with GitHub to track your progress.
+                Preview the first module free, then unlock the paid mastery tools:
+                saved progress, scenario tests, AI syllabi, and certificates.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Link
@@ -218,7 +247,7 @@ export default function Home() {
                   href="/sign-in"
                   className="inline-flex items-center justify-center px-7 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl transition-colors border border-white/20"
                 >
-                  Sign in with GitHub
+                  Sign in
                 </Link>
               </div>
             </div>

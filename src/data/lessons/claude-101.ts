@@ -12,7 +12,7 @@ const lessons: LessonContent[] = [
 
 <h3>Creating Your Account</h3>
 <p>Getting started takes less than two minutes. Visit <strong>claude.ai</strong> and sign up with your email address or an existing Google or Apple account. Once verified, you'll land directly in the conversation interface — no setup wizard, no configuration required.</p>
-<p>Anthropic offers several plans. The free tier gives you a generous daily allowance of messages. Claude Pro unlocks priority access, longer context windows, and early access to new features. For teams, Claude for Work adds admin controls and shared workspaces.</p>
+<p>Anthropic offers consumer and workplace plans that change over time. For AcademAI, the important habit is to understand your plan limits, know whether you are working in a personal or team workspace, and avoid putting sensitive data into Claude unless your organization allows it.</p>
 
 <h3>The Conversation Interface</h3>
 <p>Claude's interface is intentionally minimal. At the center is a message input box where you type your requests. Above it, the conversation history scrolls upward as you exchange messages. Key controls to know:</p>
@@ -20,12 +20,12 @@ const lessons: LessonContent[] = [
   <li><strong>New chat</strong> — starts a fresh conversation with no prior context</li>
   <li><strong>Projects</strong> — persistent workspaces where Claude remembers context across sessions</li>
   <li><strong>File upload</strong> — attach PDFs, images, spreadsheets, or code files directly</li>
-  <li><strong>Model selector</strong> — switch between Claude models (Haiku for speed, Sonnet for balance, Opus for depth)</li>
+  <li><strong>Model selector</strong> — choose the available Claude model that fits the job: faster models for simple work, stronger models for deeper reasoning and synthesis</li>
 </ul>
 
 <h3>How Conversations Work</h3>
 <p>Claude reads your entire conversation history each time you send a message. This means you don't need to repeat yourself — you can refer back to earlier parts of the conversation naturally. However, each new chat starts completely fresh. If you want Claude to remember something across sessions, use a Project or paste in the relevant context at the start.</p>
-<p>The <strong>context window</strong> is the total amount of text Claude can consider at once, measured in tokens (roughly 0.75 words per token). Claude 3.5 Sonnet supports 200,000 tokens — enough for a 150,000-word novel or hundreds of pages of code.</p>
+<p>The <strong>context window</strong> is the total amount of text Claude can consider at once, measured in tokens. Claude models can work with large amounts of context, but more context is not automatically better. Good learners give Claude the right source material, label what matters, and ask it to separate facts from assumptions.</p>
 
 <h3>Your First Conversation</h3>
 <p>Try starting with something specific to your actual work. The more concrete your request, the more useful Claude's response will be. Instead of "help me write an email," try "write a follow-up email to a client who hasn't responded in two weeks — professional but friendly, about 100 words." Specificity is the key to quality output.</p>
@@ -101,8 +101,8 @@ const lessons: LessonContent[] = [
 <h3>Use Examples</h3>
 <p>Few-shot prompting means providing one or more examples of what you want. It's one of the most reliable ways to get consistent output format or style. If you want Claude to analyze customer reviews in a specific format, show it one completed example before asking it to process the rest.</p>
 
-<h3>Chain-of-Thought Prompting</h3>
-<p>For complex reasoning tasks, ask Claude to think through the problem step by step before giving a final answer. Simply adding "think step by step" or "walk me through your reasoning" often significantly improves accuracy on math problems, logic puzzles, and multi-step analyses. Claude's extended thinking feature (on supported models) makes this even more powerful.</p>
+<h3>Ask for a Plan, Checks, and Assumptions</h3>
+<p>For complex tasks, ask Claude to outline its approach, name assumptions, and list checks before giving the final answer. This is more useful for real work than asking for hidden reasoning. You get a response you can inspect, challenge, and improve.</p>
 
 <h3>Iterate, Don't Restart</h3>
 <p>Treat your first Claude response as a draft. If it's not quite right, say so specifically: "That's good but too formal — make it more conversational." "The second paragraph is unclear — can you rewrite it?" "Add more specific examples in the section about X." Iterative refinement almost always produces better results than trying to craft a perfect prompt from scratch.</p>
