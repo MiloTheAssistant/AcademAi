@@ -243,8 +243,11 @@ Before approving a new asset, check:
 
 ```txt
 public/brand/README.md
+public/brand/approval-log.md
 public/brand/contact-sheet.png
+public/brand/course-visual-notes.md
 public/brand/review.html
+public/brand/usage-copy.md
 public/brand/facebook/cover-background.png
 public/brand/facebook/post-background.png
 public/brand/facebook/profile-stamp.png
@@ -258,6 +261,10 @@ public/brand/linkedin/profile-stamp.png
 public/brand/masters/heroes/light-crisp-hero-01.png
 public/brand/masters/heroes/light-crisp-hero-02.png
 public/brand/masters/heroes/light-crisp-hero-03.png
+public/brand/masters/consoles/assessment-lab-01.png
+public/brand/masters/consoles/certificate-proof-01.png
+public/brand/masters/consoles/mastery-console-01.png
+public/brand/masters/consoles/syllabus-builder-01.png
 public/brand/masters/stamps/mentor-mark-premium-01.png
 public/brand/masters/stamps/mentor-mark-premium-02.png
 public/brand/masters/stamps/mentor-mark-premium-03.png
@@ -266,6 +273,12 @@ public/brand/tiktok/profile-background.png
 public/brand/tiktok/profile-stamp.png
 public/brand/website/profile-background.png
 public/brand/website/profile-stamp.png
+public/brand/website/section-assessment-lab.png
+public/brand/website/section-certificate-proof.png
+public/brand/website/section-mastery-console.png
+public/brand/website/section-syllabus-builder.png
+public/brand/x/card-certificate-default.png
+public/brand/x/card-course-default.png
 public/brand/x/header-background.png
 public/brand/x/post-background.png
 public/brand/x/profile-stamp.png
@@ -275,5 +288,7 @@ public/brand/x/profile-stamp.png
 
 - Homepage hero uses `/brand/website/profile-background.png`, currently promoted from `masters/heroes/light-crisp-hero-02.png`.
 - Homepage hero badge uses `/brand/website/profile-stamp.png`, currently promoted from `masters/stamps/mentor-mark-premium-02.png`.
+- Product-section image candidates use `/brand/website/section-mastery-console.png`, `/brand/website/section-assessment-lab.png`, `/brand/website/section-syllabus-builder.png`, and `/brand/website/section-certificate-proof.png`.
 - Open Graph and Twitter previews use `/brand/x/post-background.png`, cropped from the promoted light-crisp hero source family.
+- Course and certificate social-card defaults are available at `/brand/x/card-course-default.png` and `/brand/x/card-certificate-default.png`.
 - App icons are generated from `/brand/website/profile-stamp.png` and served by the Next.js App Router as `src/app/favicon.ico`, `src/app/icon.png`, and `src/app/apple-icon.png`.
