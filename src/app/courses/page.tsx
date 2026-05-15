@@ -1,6 +1,31 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { courses, categories } from "@/data/courses";
 import { CourseGrid, type CourseCardData } from "@/components/CourseGrid";
+import { defaultOgImage, siteName } from "@/lib/seo";
+
+export const metadata: Metadata = {
+  title: "AI Courses",
+  description:
+    "Browse AcademAI courses for Claude AI, Claude Code, Anthropic API development, Model Context Protocol, and practical AI fluency.",
+  alternates: {
+    canonical: "/courses",
+  },
+  openGraph: {
+    title: `AI Courses - ${siteName}`,
+    description:
+      "Browse AcademAI courses for Claude AI, Claude Code, Anthropic API development, Model Context Protocol, and practical AI fluency.",
+    url: "/courses",
+    images: [defaultOgImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `AI Courses - ${siteName}`,
+    description:
+      "Browse AcademAI courses for Claude AI, Claude Code, Anthropic API development, Model Context Protocol, and practical AI fluency.",
+    images: [defaultOgImage],
+  },
+};
 
 const filterPillActive =
   "bg-blue-600 text-white border-blue-600 shadow-sm shadow-blue-500/20";

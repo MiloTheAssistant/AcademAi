@@ -1,5 +1,30 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { courses, learningPaths } from "@/data/courses";
+import { defaultOgImage, siteName } from "@/lib/seo";
+
+export const metadata: Metadata = {
+  title: "About",
+  description:
+    "Learn how AcademAI organizes independent Claude AI, Claude Code, Anthropic API, MCP, and AI fluency training into practical courses and paths.",
+  alternates: {
+    canonical: "/about",
+  },
+  openGraph: {
+    title: `About - ${siteName}`,
+    description:
+      "Learn how AcademAI organizes independent Claude AI, Claude Code, Anthropic API, MCP, and AI fluency training into practical courses and paths.",
+    url: "/about",
+    images: [defaultOgImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `About - ${siteName}`,
+    description:
+      "Learn how AcademAI organizes independent Claude AI, Claude Code, Anthropic API, MCP, and AI fluency training into practical courses and paths.",
+    images: [defaultOgImage],
+  },
+};
 
 export default function AboutPage() {
   return (

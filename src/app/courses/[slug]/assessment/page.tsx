@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
@@ -14,13 +15,20 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const course = getCourseBySlug(slug);
   if (!course) return { title: "Assessment Not Found" };
   return {
     title: `${course.title} Scenario Test - AcademAI`,
     description: `Practice realistic ${course.title} scenarios and qualify for a completion certificate.`,
+    alternates: {
+      canonical: `/courses/${course.slug}`,
+    },
+    robots: {
+      index: false,
+      follow: false,
+    },
   };
 }
 

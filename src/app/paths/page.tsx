@@ -1,5 +1,30 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { learningPaths, getCourseBySlug } from "@/data/courses";
+import { defaultOgImage, siteName } from "@/lib/seo";
+
+export const metadata: Metadata = {
+  title: "Learning Paths",
+  description:
+    "Follow structured AcademAI learning paths for AI foundations, Claude Code mastery, cloud integrations, Model Context Protocol, educators, students, and nonprofits.",
+  alternates: {
+    canonical: "/paths",
+  },
+  openGraph: {
+    title: `Learning Paths - ${siteName}`,
+    description:
+      "Follow structured AcademAI learning paths for AI foundations, Claude Code mastery, cloud integrations, Model Context Protocol, educators, students, and nonprofits.",
+    url: "/paths",
+    images: [defaultOgImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `Learning Paths - ${siteName}`,
+    description:
+      "Follow structured AcademAI learning paths for AI foundations, Claude Code mastery, cloud integrations, Model Context Protocol, educators, students, and nonprofits.",
+    images: [defaultOgImage],
+  },
+};
 
 export default function PathsPage() {
   return (

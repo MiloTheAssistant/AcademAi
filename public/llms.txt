@@ -1,0 +1,36 @@
+# AcademAI - Premium AI Training Console
+
+> AcademAI is an independent AI learning platform with free course previews and paid mastery tools for Claude AI, Claude Code, the Anthropic API, Model Context Protocol, and practical AI fluency.
+
+AcademAI is an independent educational project and is not affiliated with or endorsed by Anthropic PBC.
+
+## Core Pages
+
+- [Home](https://academai.app/): Overview of the AcademAI learning platform.
+- [Courses](https://academai.app/courses): Public catalog of AcademAI courses.
+- [Learning Paths](https://academai.app/paths): Role-based roadmaps for AI foundations, Claude Code, API/cloud integrations, MCP, educators, students, and nonprofits.
+- [Pricing](https://academai.app/pricing): Membership and paid mastery access information.
+- [About](https://academai.app/about): Background on the AcademAI training approach.
+
+## Course Catalog
+
+- [Claude 101](https://academai.app/courses/claude-101): Beginner course for everyday Claude use, core features, prompting basics, work tasks, and safety practices.
+- [Claude Code in Action](https://academai.app/courses/claude-code-in-action): Intermediate course for using Claude Code in development workflows.
+- [Introduction to Claude Cowork](https://academai.app/courses/introduction-to-claude-cowork): Intermediate course for working with Claude on real files, projects, plugins, and workflows.
+- [Introduction to Agent Skills](https://academai.app/courses/introduction-to-agent-skills): Intermediate course on reusable agent skill concepts, structure, sharing, and best practices.
+- [Introduction to Subagents](https://academai.app/courses/introduction-to-subagents): Advanced course on context management, delegation, and specialized agent workflows.
+- [Building with the Claude API](https://academai.app/courses/building-with-the-claude-api): Intermediate course on API requests, authentication, prompting, streaming, tools, and production practices.
+- [Claude with Amazon Bedrock](https://academai.app/courses/claude-with-amazon-bedrock): Advanced course on using Claude models through AWS Bedrock.
+- [Claude with Google Cloud's Vertex AI](https://academai.app/courses/claude-with-google-vertex): Advanced course on using Anthropic models through Google Cloud Vertex AI.
+- [Introduction to Model Context Protocol](https://academai.app/courses/introduction-to-model-context-protocol): Intermediate course on MCP tools, resources, prompts, servers, and clients.
+- [Model Context Protocol: Advanced Topics](https://academai.app/courses/model-context-protocol-advanced-topics): Advanced course on MCP sampling, notifications, file access, transport, security, and production patterns.
+- [AI Fluency: Framework & Foundations](https://academai.app/courses/ai-fluency-framework-foundations): Beginner course on effective, efficient, ethical, and safe AI collaboration.
+- [AI Fluency for Educators](https://academai.app/courses/ai-fluency-for-educators): Intermediate course for faculty, instructional designers, and educational leaders.
+- [AI Fluency for Students](https://academai.app/courses/ai-fluency-for-students): Beginner course for AI-enhanced learning, academic success, and career planning.
+- [Teaching AI Fluency](https://academai.app/courses/teaching-ai-fluency): Advanced course for teaching and assessing AI fluency.
+- [AI Fluency for Nonprofits](https://academai.app/courses/ai-fluency-for-nonprofits): Beginner course for mission-driven AI use in nonprofit work.
+
+## Access Notes
+
+- Public pages include the homepage, course catalog, learning paths, pricing, about page, and course overview pages.
+- Member-only experiences such as progress tracking, AI-generated syllabi, certificates, account pages, APIs, and paid lesson bodies should not be listed in this file unless their public access policy changes.

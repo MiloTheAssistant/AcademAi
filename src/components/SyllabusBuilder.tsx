@@ -9,15 +9,44 @@ const levels: Array<{ value: SkillLevel; label: string }> = [
   { value: "intermediate", label: "Intermediate" },
 ];
 
+const sourceLabels: Record<GeneratedSyllabus["source"], string> = {
+  ollama: "Ollama generated",
+  nvidia: "NVIDIA NIM generated",
+  openai: "OpenAI generated",
+  template: "Template fallback",
+  pending: "Building with AI",
+};
+
+const wait = (ms: number) => new Promise((resolve) => window.setTimeout(resolve, ms));
+
 export function SyllabusBuilder() {
   const [goal, setGoal] = useState("");
   const [skillLevel, setSkillLevel] = useState<SkillLevel>("novice");
   const [path, setPath] = useState("Claude Foundations");
   const [syllabus, setSyllabus] = useState<GeneratedSyllabus | null>(null);
-  const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "starting" | "generating" | "error">("idle");
+
+  async function pollSyllabus(id: string) {
+    for (let attempt = 0; attempt < 40; attempt += 1) {
+      await wait(3000);
+      const res = await fetch(`/api/syllabus?id=${encodeURIComponent(id)}`);
+      if (!res.ok) continue;
+
+      const data = await res.json() as { syllabus?: GeneratedSyllabus };
+      if (!data.syllabus) continue;
+
+      setSyllabus(data.syllabus);
+      if (data.syllabus.generationStatus !== "generating") {
+        setStatus(data.syllabus.generationStatus === "failed" ? "error" : "idle");
+        return;
+      }
+    }
+
+    setStatus("idle");
+  }
 
   async function generate() {
-    setStatus("loading");
+    setStatus("starting");
     setSyllabus(null);
     try {
       const res = await fetch("/api/syllabus", {
@@ -32,8 +61,14 @@ export function SyllabusBuilder() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Could not generate syllabus.");
-      setSyllabus(data.syllabus);
-      setStatus("idle");
+      const nextSyllabus = data.syllabus as GeneratedSyllabus;
+      setSyllabus(nextSyllabus);
+      if (nextSyllabus.generationStatus === "generating" && nextSyllabus.id) {
+        setStatus("generating");
+        void pollSyllabus(nextSyllabus.id);
+        return;
+      }
+      setStatus(nextSyllabus.generationStatus === "failed" ? "error" : "idle");
     } catch {
       setStatus("error");
     }
@@ -84,15 +119,21 @@ export function SyllabusBuilder() {
       <button
         type="button"
         onClick={generate}
-        disabled={goal.trim().length < 12 || status === "loading"}
+        disabled={goal.trim().length < 12 || status === "starting" || status === "generating"}
         className="mt-5 inline-flex rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
       >
-        {status === "loading" ? "Building syllabus..." : "Generate my syllabus"}
+        {status === "starting" ? "Saving request..." : status === "generating" ? "Building syllabus..." : "Generate my syllabus"}
       </button>
 
       {status === "error" && (
         <p className="mt-3 text-sm text-red-600 dark:text-red-400">
-          Syllabus generation could not be saved. Check your membership and database configuration.
+          Syllabus generation used the safe fallback or could not be refreshed. Your saved plan remains available below.
+        </p>
+      )}
+
+      {status === "generating" && (
+        <p className="mt-3 text-sm text-blue-700 dark:text-blue-300">
+          Your syllabus request is saved. AcademAI is building the full plan in the background.
         </p>
       )}
 
@@ -101,9 +142,14 @@ export function SyllabusBuilder() {
           <div className="flex items-center justify-between gap-4">
             <h2 className="text-xl font-bold">Your Claude study plan</h2>
             <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium uppercase text-slate-600 dark:bg-slate-800 dark:text-slate-300">
-              {syllabus.source === "claude" ? "Claude generated" : "Template fallback"}
+              {sourceLabels[syllabus.source]}
             </span>
           </div>
+          {syllabus.generationStatus === "generating" && (
+            <div className="rounded-xl border border-blue-200 bg-blue-50 p-5 text-sm text-blue-900 dark:border-blue-900 dark:bg-blue-950/30 dark:text-blue-100">
+              Your saved syllabus is being generated. You can stay on this page or come back later.
+            </div>
+          )}
           {syllabus.modules.map((module, index) => (
             <article
               key={`${module.title}-${index}`}

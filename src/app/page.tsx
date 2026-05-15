@@ -28,7 +28,7 @@ export default function Home() {
       <section className="relative min-h-[calc(100vh-4rem)] overflow-hidden bg-white">
         <Image
           src="/brand/website/profile-background.png"
-          alt=""
+          alt="AcademAI learning workspace with AI training visuals"
           fill
           priority
           sizes="100vw"
@@ -43,7 +43,7 @@ export default function Home() {
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 border border-blue-100 text-blue-700 text-sm font-medium mb-8 shadow-sm shadow-blue-950/5 backdrop-blur">
               <Image
                 src="/brand/website/profile-stamp.png"
-                alt=""
+                alt="AcademAI profile stamp"
                 width={22}
                 height={22}
                 className="rounded-full"

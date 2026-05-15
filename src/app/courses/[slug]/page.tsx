@@ -1,8 +1,17 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { courses, getCourseBySlug } from "@/data/courses";
 import { CourseResumeBanner } from "@/components/CourseResumeBanner";
 import { CourseStartButton } from "@/components/CourseStartButton";
+import {
+  JsonLd,
+  absoluteUrl,
+  breadcrumbSchema,
+  courseSchema,
+  defaultOgImage,
+  siteName,
+} from "@/lib/seo";
 
 export async function generateStaticParams() {
   return courses.map((course) => ({
@@ -10,13 +19,28 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const course = getCourseBySlug(slug);
   if (!course) return { title: "Course Not Found" };
   return {
-    title: `${course.title} - AcademAI`,
+    title: course.title,
     description: course.description,
+    alternates: {
+      canonical: `/courses/${course.slug}`,
+    },
+    openGraph: {
+      title: `${course.title} - ${siteName}`,
+      description: course.description,
+      url: `/courses/${course.slug}`,
+      images: [defaultOgImage],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${course.title} - ${siteName}`,
+      description: course.description,
+      images: [defaultOgImage],
+    },
   };
 }
 
@@ -32,6 +56,16 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <JsonLd
+        data={[
+          courseSchema(course),
+          breadcrumbSchema([
+            { name: "Home", url: absoluteUrl("/") },
+            { name: "Courses", url: absoluteUrl("/courses") },
+            { name: course.title, url: absoluteUrl(`/courses/${course.slug}`) },
+          ]),
+        ]}
+      />
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-8">
         <Link href="/courses" className="hover:text-blue-600 dark:hover:text-blue-400">

@@ -49,8 +49,20 @@ create table if not exists generated_syllabi (
   learning_path text not null,
   modules jsonb not null,
   source text not null,
-  created_at timestamptz not null default now()
+  generation_status text not null default 'ready',
+  generation_error text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
 );
+
+alter table generated_syllabi
+  add column if not exists generation_status text not null default 'ready';
+
+alter table generated_syllabi
+  add column if not exists generation_error text;
+
+alter table generated_syllabi
+  add column if not exists updated_at timestamptz not null default now();
 
 create index if not exists generated_syllabi_user_created_idx
   on generated_syllabi (user_id, created_at desc);

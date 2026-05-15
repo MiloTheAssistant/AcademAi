@@ -12,12 +12,22 @@ export function getStripe(): Stripe {
   return stripeClient;
 }
 
-// Price IDs created in Stripe (sandbox)
-// Product: AcademAI Members (prod_UGtbfZnAcw1ae8)
+const DEFAULT_STRIPE_PRICES = {
+  weekly:  'price_1TINCbHYoNGH7WzgYNFDjvnZ',
+  monthly: 'price_1TINCaHYoNGH7WzgLeESzvJJ',
+  yearly:  'price_1TINCZHYoNGH7WzgxaLLj2Ap',
+} as const;
+
+function getConfiguredPriceId(name: string, fallback: string): string {
+  return process.env[name]?.trim() || fallback;
+}
+
+// Price IDs created in Stripe.
+// Product: AcademAI Members
 export const STRIPE_PRICES = {
-  weekly:  'price_1TILp5Heg8aT6eIyucrGc6S4', // $4.99 / week
-  monthly: 'price_1TILp5Heg8aT6eIymsvm8kcW', // $14.99 / month
-  yearly:  'price_1TILp6Heg8aT6eIycvLkpjSy', // $99.00 / year
+  weekly:  getConfiguredPriceId('STRIPE_PRICE_WEEKLY', DEFAULT_STRIPE_PRICES.weekly),
+  monthly: getConfiguredPriceId('STRIPE_PRICE_MONTHLY', DEFAULT_STRIPE_PRICES.monthly),
+  yearly:  getConfiguredPriceId('STRIPE_PRICE_YEARLY', DEFAULT_STRIPE_PRICES.yearly),
 } as const;
 
 export type PlanKey = keyof typeof STRIPE_PRICES;

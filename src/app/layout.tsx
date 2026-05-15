@@ -4,22 +4,36 @@ import Link from "next/link";
 import "./globals.css";
 import { ClerkProvider } from '@clerk/nextjs';
 import { NavClient } from "@/components/NavClient";
+import {
+  JsonLd,
+  defaultDescription,
+  defaultOgImage,
+  organizationSchema,
+  siteName,
+  siteUrl,
+  websiteSchema,
+} from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: {
-    default: "AcademAI — Premium AI Training Console",
+    default: `${siteName} — Premium AI Training Console`,
     template: "%s — AcademAI",
   },
-  description:
-    "Free intro previews and paid mastery paths for Claude AI, Claude Code, the Anthropic API, and practical AI fluency.",
-  metadataBase: new URL("https://academai.app"),
+  description: defaultDescription,
+  metadataBase: new URL(siteUrl),
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
-    siteName: "AcademAI",
+    siteName,
+    title: `${siteName} — Premium AI Training Console`,
+    description: defaultDescription,
+    url: "/",
     locale: "en_US",
     images: [
       {
-        url: "/brand/x/post-background.png",
+        url: defaultOgImage,
         width: 1600,
         height: 900,
         alt: "AcademAI Human Learning Lab workspace",
@@ -28,7 +42,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    images: ["/brand/x/post-background.png"],
+    title: `${siteName} — Premium AI Training Console`,
+    description: defaultDescription,
+    images: [defaultOgImage],
   },
   icons: {
     icon: [
@@ -48,13 +64,14 @@ export default async function RootLayout({
     <ClerkProvider signInUrl="/sign-in" signUpUrl="/sign-up">
     <html lang="en">
       <body className="antialiased bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+        <JsonLd data={[organizationSchema(), websiteSchema()]} />
         <header className="sticky top-0 z-50 bg-white/90 dark:bg-slate-950/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="relative flex items-center justify-between h-16">
               <Link href="/" className="flex items-center gap-2.5 shrink-0">
                 <Image
                   src="/brand/website/profile-stamp.png"
-                  alt=""
+                  alt="AcademAI profile stamp"
                   width={36}
                   height={36}
                   priority
@@ -77,7 +94,7 @@ export default async function RootLayout({
                 <Link href="/" className="flex items-center gap-2 mb-3">
                   <Image
                     src="/brand/website/profile-stamp.png"
-                    alt=""
+                    alt="AcademAI profile stamp"
                     width={30}
                     height={30}
                     className="rounded-full border border-blue-100 shadow-sm shadow-blue-950/10"

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
@@ -6,6 +7,7 @@ import { getLessonContent } from "@/data/lessons";
 import { LessonSidebar } from "@/components/LessonSidebar";
 import { ProgressTracker } from "@/components/ProgressTracker";
 import { requireActiveMembership } from "@/lib/entitlements";
+import { defaultOgImage, siteName } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -23,16 +25,40 @@ export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string; index: string }>;
-}) {
+}): Promise<Metadata> {
   const { slug, index } = await params;
   const course = getCourseBySlug(slug);
   if (!course) return { title: "Not Found" };
   const moduleIndex = parseInt(index, 10);
   const mod = course.modules[moduleIndex];
   if (!mod) return { title: "Not Found" };
+  const isPreview = moduleIndex === 0;
   return {
     title: `${mod.title} — ${course.title}`,
     description: mod.description,
+    alternates: {
+      canonical: isPreview
+        ? `/courses/${course.slug}/lessons/${moduleIndex}`
+        : `/courses/${course.slug}`,
+    },
+    openGraph: {
+      title: `${mod.title} - ${course.title} - ${siteName}`,
+      description: mod.description,
+      url: isPreview
+        ? `/courses/${course.slug}/lessons/${moduleIndex}`
+        : `/courses/${course.slug}`,
+      images: [defaultOgImage],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${mod.title} - ${course.title} - ${siteName}`,
+      description: mod.description,
+      images: [defaultOgImage],
+    },
+    robots: {
+      index: isPreview,
+      follow: isPreview,
+    },
   };
 }
 
